@@ -295,8 +295,10 @@ class EmailNotifications
         }
 
         foreach ($grouped as $folder_id => $folder_files) {
-            // Build folder hierarchy header (skip for root-level / no-folder files)
-            if ($folder_id !== 'no_folder') {
+            // Build folder header — show "Root" for files without a folder
+            if ($folder_id === 'no_folder') {
+                $html .= '<li style="font-size:14px; font-weight:bold; margin:10px 0 4px 0; color:#555;">&#128193; '.__('Root', 'cftp_admin').'</li>';
+            } else {
                 $folder = new \ProjectSend\Classes\Folder($folder_id);
                 $hierarchy = $folder->getHierarchy();
                 // getHierarchy returns [current, parent, grandparent, ...] — reverse for root-first
